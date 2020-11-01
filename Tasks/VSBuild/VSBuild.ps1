@@ -45,6 +45,9 @@ try {
     # Resolve a VS version.
     $vsVersion = Select-VSVersion -PreferredVersion $vsVersion
 
+    # Get VS installation path.
+    $vsPath = Get-VSPath -Version $vsVersion
+
     # Translate to MSBuild version.
     $msBuildVersion = $null;
     switch ("$vsVersion") {
@@ -61,7 +64,7 @@ try {
     $msBuildLocation = Select-MSBuildPath -PreferredVersion $msBuildVersion -Architecture $msBuildArchitecture
 
     # Format the MSBuild args.
-    $MSBuildArgs = Format-MSBuildArguments -MSBuildArguments $MSBuildArgs -Platform $Platform -Configuration $Configuration -VSVersion $VSVersion -MaximumCpuCount:$maximumCpuCount
+    $MSBuildArgs = Format-MSBuildArguments -MSBuildArguments $MSBuildArgs -Platform $Platform -Configuration $Configuration -VSVersion $VSVersion -VSPath $vsPath -MaximumCpuCount:$maximumCpuCount
 
     # Change the error action preference to 'Continue' so that each solution will build even if
     # one fails. Since the error action preference is being changed from 'Stop' (the default for

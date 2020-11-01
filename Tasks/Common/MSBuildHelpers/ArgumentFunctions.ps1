@@ -5,6 +5,7 @@ function Format-MSBuildArguments {
         [string]$Platform,
         [string]$Configuration,
         [string]$VSVersion,
+        [string]$VSPath,
         [switch]$MaximumCpuCount)
 
     Trace-VstsEnteringInvocation $MyInvocation
@@ -19,6 +20,11 @@ function Format-MSBuildArguments {
 
         if ($VSVersion) {
             $MSBuildArguments = "$MSBuildArguments /p:VisualStudioVersion=`"$VSVersion`""
+        }
+
+        if ($VSPath) {
+            $DevEnvDir = Join-Path -Path $VSPath -ChildPath "Common7\IDE\\"
+            $MSBuildArguments = "$MSBuildArguments /p:DevEnvDir=`"$DevEnvDir`""
         }
 
         if ($MaximumCpuCount) {
