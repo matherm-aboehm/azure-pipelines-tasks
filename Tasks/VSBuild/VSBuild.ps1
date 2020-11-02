@@ -46,7 +46,10 @@ try {
     $vsVersion = Select-VSVersion -PreferredVersion $vsVersion
 
     # Get VS installation path.
-    $vsPath = Get-VSPath -Version $vsVersion
+    [string]$vsPath = ''
+    if ($vsVersion -ne '') {
+        $vsPath = Get-VSPath -Version $vsVersion
+    }
 
     # Translate to MSBuild version.
     $msBuildVersion = $null;

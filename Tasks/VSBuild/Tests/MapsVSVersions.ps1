@@ -17,6 +17,7 @@ $mappings = @(
 foreach ($mapping in $mappings) {
     Unregister-Mock Get-VstsInput
     Unregister-Mock Select-VSVersion
+    Unregister-Mock Get-VSPath
     Unregister-Mock Select-MSBuildPath
     Register-Mock Get-VstsInput { $mapping.VSVersion } -- -Name VSVersion
     Register-Mock Get-VstsInput { 'Some input architecture' } -- -Name MSBuildArchitecture
@@ -30,6 +31,7 @@ foreach ($mapping in $mappings) {
     Register-Mock Get-VstsInput { $false } -- -Name LogProjectEvents -AsBool
     Register-Mock Get-VstsInput { $false } -- -Name CreateLogFile -AsBool
     Register-Mock Select-VSVersion { $mapping.VSVersion } -- -PreferredVersion $mapping.VSVersion
+    Register-Mock Get-VSPath { 'Some VS location' } -- -Version $mapping.VSVersion
     Register-Mock Select-MSBuildPath
 
     # Act.
